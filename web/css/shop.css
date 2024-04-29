@@ -1,0 +1,423 @@
+main > .container {
+    padding: 70px 0 0;
+}
+
+.footer {
+    background-color: #f5f5f5;
+    font-size: .9em;
+    height: 60px;
+}
+
+.footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+    content: '';
+    left: 3px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: solid 5px transparent;
+    margin: 4px 4px 2px 4px;
+    background: transparent;
+}
+
+a.asc:after {
+    border-bottom: solid 7px #212529;
+    border-top-width: 0;
+}
+
+a.desc:after {
+    border-top: solid 7px #212529;
+    border-bottom-width: 0;
+}
+
+.grid-view th {
+    white-space: nowrap;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+/* align the logout "link" (button in form) of the navbar */
+.nav li > form > button.logout {
+    padding-top: 7px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+@media(max-width:767px) {
+    .nav li > form > button.logout {
+        display:block;
+        text-align: left;
+        width: 100%;
+        padding: 10px 0;
+    }
+}
+
+.nav > li > form > button.logout:focus,
+.nav > li > form > button.logout:hover {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.nav > li > form > button.logout:focus {
+    outline: none;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+
+/*Мой код*/
+
+.myfuuter {
+    width: 100px;
+    height: 100px;
+    color: red;
+    background: red;
+}
+
+
+.shop-block{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.main-block {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width: 100%;
+    flex-wrap: wrap
+}
+
+.shop-card {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #FFFFFF;
+    box-shadow: 0 3px 7px 0 rgba(0,0,0,0.13),
+    0 1px 2px 0 rgba(0,0,0,0.11);
+}
+
+.shop-info {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.shop-name {
+    cursor: pointer;
+    width: max-content;
+    list-style-type: none;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #3D3D3D;
+    margin-bottom: 10px;
+    transition: all 0.5s ease;
+}
+
+.shop-name a {
+    cursor: pointer;
+    color: #0a73bb;
+    transition: all 0.5s ease;
+}
+
+.shop-name a:hover {
+    color: #0e93f1;
+}
+
+.shop-name a:after {
+    content: "☚";
+}
+
+
+.control-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.pagination {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.pagination li {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+li a {
+    color: black;
+    text-decoration: none;
+}
+
+.pagination li.active {
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+}
+
+li.active a {
+    color: white;
+}
+
+.pagination li:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+.view-shop {
+    justify-content: start;
+}
+
+.noclick-info {
+    cursor: default;
+}
+
+.button-main {
+    text-decoration: none;
+    border-radius: 12px;
+    border: none;
+    padding: 20px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 0 20px;
+    background-color: #FFFFFF;
+    box-shadow: 0 3px 7px 0 rgba(0,0,0,0.13),
+    0 1px 2px 0 rgba(0,0,0,0.11);
+    transition: all 0.5s ease;
+}
+
+.button-info {
+    padding: 15px;
+    color: white;
+    background-color: #0091DC;
+    margin-bottom: 0;
+}
+
+.button-info:hover {
+    background-color: #005F89;
+}
+
+/*View shop*/
+
+.control-block p {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+p .button-main {
+    margin-left: 15px;
+}
+
+.button-back{
+    padding: 15px;
+    color: black;
+    background-color: #FFFFFF;
+    margin-bottom: 0;
+}
+
+.button-back:hover {
+    background-color: #CEC1C7;
+}
+
+.button-delete {
+    padding: 15px;
+    color: white;
+    background-color: #F34949;
+    margin-bottom: 0;
+}
+
+.button-delete:hover {
+    background-color: #B43636;
+}
+
+.button-save {
+    padding: 15px;
+    color: white;
+    background-color: #20BB5C;
+    margin-bottom: 0;
+}
+
+.button-save:hover {
+    background-color: #1A984A;
+}
+
+/*Sensor table*/
+.sensors-table {
+    border: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition: height 0.5s ease-in-out;
+}
+
+.sensors-table thead th {
+    font-weight: bold;
+    text-align: left;
+    border: none;
+    padding: 10px 15px;
+    background: #d8d8d8;
+    font-size: 14px;
+}
+.sensors-table thead tr th:first-child {
+    border-radius: 8px 0 0 8px;
+}
+.sensors-table thead tr th:last-child {
+    border-radius: 0 8px 8px 0;
+}
+.sensors-table tbody td {
+    text-align: left;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    vertical-align: top;
+}
+.sensors-table tbody tr:nth-child(even) td{
+    background: #f3f3f3;
+}
+.sensors-table tbody tr td:first-child {
+    border-radius: 8px 0 0 8px;
+}
+.sensors-table tbody tr td:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.button-add-sensor {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0 0 20px;
+    transition: all 0.5s ease;
+}
+
+.inner {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    box-sizing: content-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff; /* Фон кнопки */
+    border: 2px gray solid;
+    color: black;
+    text-decoration: none;
+    font-size: 24px;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    transition: all .3s ease-in-out;
+}
+.inner:hover {
+    background: #d8d8d8; /* Фон кнопки при наведении */
+}
+
+.block-delete {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.sensor-delete {
+    text-decoration: none;
+    color: red;
+    font-weight: bold;
+    font-size: medium;
+}
+
+.sensor-delete:hover {
+    color: black;
+}
+
+.caption-sensor-data {
+    caption-side: top;
+    background-color: #f3f3f3;
+    border-radius: 8px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: x-large;
+    margin-bottom: 5px;
+}
+
+.view-sensors {
+    cursor: pointer;
+}
+
+
+/*Input json file*/
+.field-inputJson {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    border: none;
+    padding: 20px 25px;
+    justify-content: center;
+    background-color: #FFFFFF;
+    box-shadow: 0 3px 7px 0 rgba(0,0,0,0.13),
+    0 1px 2px 0 rgba(0,0,0,0.11);
+    transition: all 0.5s ease;
+}
+
+.field-inputJson label::before {
+    content: "Файл: ";
+}
+.field-inputJson label {
+    margin-bottom: 10px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.new-row {
+    animation: fadeIn 0.5s ease-in;
+}
