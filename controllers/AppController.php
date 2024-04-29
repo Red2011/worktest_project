@@ -24,7 +24,7 @@ class AppController extends Controller
                     new AppServer()
                 )
             ),
-            9997
+            AppController::$io_port
         );
         $server->run();
     }
