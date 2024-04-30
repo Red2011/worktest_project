@@ -31,6 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </section>
 <script>
     let o = "<?= $this->title  ?>";
+    //открытие соединения с вебсокетом по данным из файла
+    //генерация объекта и отправка в вебсокет
     const send_token = "<?= $token ?>";
     const url = "<?= $url ?>";
     let numbers = [0];
@@ -40,6 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
     myFunction()
 
     ws.onmessage = function (e) {
+        //добавление в таблицу новых строк, если вебсокет отправил их
         let message = JSON.parse(e.data);
 
         let newRow = document.createElement('tr');
@@ -59,6 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
         document.getElementById('messages').prepend(newRow);
     }
     let intervalId;
+    //отправка обхекта каждые 2 секунды на вебсокет
     function myFunction() {
         ws.onopen = function(e) {
             intervalId = setInterval(function(){

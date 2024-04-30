@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="control-block">
         <?= Html::button('Назад', ['class'=>'button-main button-back', 'onclick'=>'history.go(-1)']) ?>
         <p>
+<!--            download - action текущего контроллера-->
             <?= Html::a('Файл настроек', ['download', 'token' => $shop->token, 'name'=>$shop->name], ['class' => 'button-main button-info']) ?>
             <?= Html::a('Изменить', ['update', 'id' => $shop->id], ['class' => 'button-main button-info']) ?>
             <?= Html::a('Удалить', ['delete', 'id' => $shop->id], [
@@ -71,6 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <p style="margin: 0"><?php echo $sensor->mac ?></p>
                         <div>
 
+<!--                            принцип работы модального окна в yii2 с ипользованием JS и готового виджета Modal-->
                             <?= Html::a(Html::tag('i', '', ['class' => 'fa fa-search text-primary']), FALSE, ['value'=> Url::to(['view-datas', 'sensors_id'=>$sensor->id]),
                                 'id'=>$sensor->id . "view",
                                 'class'=> 'view-sensors']) ?>
@@ -83,9 +85,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div id="<?= $sensor->id ?>modal"></div>
                             <?php Modal::end() ?>
                             <?php
+                            //модальное окно
                             $modalOpen = '#' . $sensor->id . 'modalopen';
+                            //кнопка для показа окна
                             $modalButton = '#' . $sensor->id . "view";
+                            //div где всё будет отображено
                             $modalID = "#" . $sensor->id . "modal";
+                            //отображение в модальном окне value у Html::a
                             $js = <<<JS
                             $('$modalButton').click(function(){
                                         $('$modalID').load($(this).attr('value'));

@@ -20,6 +20,8 @@ use yii\web\UploadedFile;
  */
 class ShopController extends Controller
 {
+
+    //разрешение на отображение header
     protected $_showHeader = true;
 
     public function setShowHeader($value)
@@ -56,6 +58,7 @@ class ShopController extends Controller
      *
      * @return string
      */
+    //отображение всех магазинов
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
@@ -82,6 +85,7 @@ class ShopController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
+    //отображение одного магазина по id
     public function actionView($id)
     {
         $shop = $this->findModel($id);
@@ -90,6 +94,7 @@ class ShopController extends Controller
         ]);
     }
 
+    //отображение магазина по токену
     public function actionViewByToken($token)
     {
         $model = $this->findModelByToken($token);
@@ -99,16 +104,21 @@ class ShopController extends Controller
         ]);
     }
 
+
+    //получение файла с формы, чтение токена и url и отображение страницы с подключением к вебсокету
     public function actionSend()
     {
+        //модель полученного файла
         $model = new UploadForm();
 
         if (Yii::$app->request->isPost) {
             $model->jsonFile = UploadedFile::getInstance($model, 'jsonFile');
             if ($model->upload()) {
+                //чтение файла при успешной загрузке на сервер
                $content = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $model->jsonFile), true);
                $token = $content['token'];
                $url = $content['url'];
+               //удаление файла
                unlink($_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $model->jsonFile);
                return $this->render('dataview', ['token'=>$token, 'url'=>$url]);
             }
@@ -126,14 +136,17 @@ class ShopController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
+
+    //создание магазина
     public function actionCreate()
     {
-        $url = 'ws://localhost:' . AppController::$io_port;
+       // $url = 'ws://localhost:' . AppController::$io_port;
         $model = new Shops();
 
         if ($this->request->isPost) {
 //            error_log(date("Y-m-d H:i:s"));
             $token = sha1(uniqid());
+            //строго заданы токен и дата
             $model->token = $token;
             $model->create_date = date("Y-m-d H:i:s");
             error_log(json_encode($this->request->post()));
@@ -156,6 +169,8 @@ class ShopController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
+
+    //измененение информации о магазине
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -176,6 +191,8 @@ class ShopController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
+
+    //удаление магазина
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
@@ -183,25 +200,34 @@ class ShopController extends Controller
         return $this->redirect(['index']);
     }
 
+
+    //добавление нового устройства для магазина
     public function actionAddSensor($token)
     {
         return Yii::$app->runAction('sensor/create', ['token' => $token]);
     }
 
+
+    //удаление устройства
     public function actionDeleteSensor($sensor, $token)
     {
         return Yii::$app->runAction('sensor/delete', ['sensor' => $sensor, 'token' => $token]);
     }
 
+
+    //получение датчиков устройства
     public function actionViewDatas($sensors_id)
     {
         return Yii::$app->runAction('sensor/view-data', ['id' => $sensors_id]);
     }
 
+
+    //формирование файла и загрузка
     public function actionDownload($token, $name)
     {
         $url = 'ws://localhost:' . AppController::$io_port;
         $filePath = $_SERVER['DOCUMENT_ROOT'] . "/files/" . "{$name}" . ".json";
+        //предварительное удаление всех файлов в папке
         $files = glob($_SERVER['DOCUMENT_ROOT'] . '/files/*');
         if ($files) {
             foreach ($files as $file) {
@@ -215,11 +241,13 @@ class ShopController extends Controller
             'url' => $url
         ];
         $jsonData = json_encode($data);
+        //создание файла и запись в него объекта
         $fp = fopen($filePath, "wb");
         if ($fp) {
             fwrite($fp, $jsonData);
             fclose($fp);
         }
+        //отправка файла при успешном создании
         if (file_exists($filePath)) {
             return Yii::$app->response->sendFile($filePath)->send();
         } else {
@@ -234,22 +262,25 @@ class ShopController extends Controller
      * @return Shops the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+
+    //получение модели магазина по id
     protected function findModel($id)
     {
         if (($model = Shops::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('Магазин не найден');
     }
 
+    //получение модели магазина по токену
     protected function findModelByToken($token)
     {
         if (($model = Shops::findOne(['token' => $token])) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('Магазин не найден');
     }
 
 }

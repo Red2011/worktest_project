@@ -8,6 +8,7 @@ use yii\widgets\ActiveForm;
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
+<!--форма для изменение/создания. Контроллер получает данные через post. Логика заранее прописана в ActiveForm-->
 <div class="shops-form">
 
     <?php $form = ActiveForm::begin(); ?>

@@ -54,6 +54,8 @@ class SensorData extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
+
+    //получение id устройства у датчика по внешнему ключу
     public function getSensor()
     {
         return $this->hasOne(Sensors::class, ['id' => 'sensor_id']);

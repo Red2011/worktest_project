@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 
 \yii\web\YiiAsset::register($this);
 ?>
-
+<!--модальное окно для данных устройства-->
 <table class="sensors-table" style="margin: 0">
     <caption class="caption-sensor-data" style="caption-side: top;">Устройство: <?php echo $model->sensor_id ?></caption>
     <thead>

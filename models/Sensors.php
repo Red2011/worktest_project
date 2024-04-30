@@ -57,6 +57,8 @@ class Sensors extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
+
+    //получение всех значений датчиков у устройства по внешнему ключу
     public function getSensorDatas()
     {
         return $this->hasMany(SensorData::class, ['sensor_id' => 'id']);
@@ -67,6 +69,8 @@ class Sensors extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
+
+    //получение токена магазина для устройства по внешнему ключу
     public function getSensorToken()
     {
         return $this->hasOne(Shops::class, ['token' => 'sensor_token']);

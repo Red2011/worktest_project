@@ -19,6 +19,7 @@ use Yii;
  */
 class Shops extends \yii\db\ActiveRecord
 {
+    //модель для магазинов
     /**
      * {@inheritdoc}
      */
@@ -32,6 +33,7 @@ class Shops extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+        //правила по которым происходит создание нового магазина
         return [
             [['create_date'], 'required'],
             [['create_date'], 'safe'],
@@ -48,6 +50,7 @@ class Shops extends \yii\db\ActiveRecord
      */
     public function attributeLabels()
     {
+        //переопределение атрибутов для отображения на клиенте
         return [
             'id' => 'id',
             'name' => 'Название магазина',
@@ -64,6 +67,7 @@ class Shops extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
+    //получение всех устройств у магазина по внешнему ключу
     public function getSensors()
     {
         return $this->hasMany(Sensors::class, ['sensor_token' => 'token']);

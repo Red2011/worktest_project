@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  */
 class SensorController extends Controller
 {
+    //разрешение на отображение header
     protected $_showHeader = true;
 
     public function setShowHeader($value)
@@ -83,6 +84,7 @@ class SensorController extends Controller
         ]);
     }
 
+    //отображение данных датчиков по id устройства без header
     public function actionViewData($id)
     {
         $this->setShowHeader(false);
@@ -96,10 +98,14 @@ class SensorController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
+
+    //создание нового устройства для магазина с токеном $token без header
+    //переделать, т.к. создаётся 1 устройство с 1 датчиком каждый раз
     public function actionCreate($token)
     {
         $this->setShowHeader(false);
         $model = new Sensors();
+        //получение всех id устройств магазина и создание нового id
         $ids = $this->findAllSensors($token);
         sort($ids);
         $last_id = end($ids);
@@ -170,9 +176,11 @@ class SensorController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('Устройство не найдено');
     }
 
+
+    //получение всех устройств по токену магазина
     protected function findAllSensors($token)
     {
         $ids = array();

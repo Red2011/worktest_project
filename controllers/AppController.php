@@ -11,6 +11,7 @@ use yii\web\Controller;
 
 class AppController extends Controller
 {
+    //контроллер для запуска сервера вебсокета
     static $io_port = 9997;
 
     /**
@@ -21,6 +22,7 @@ class AppController extends Controller
         $server = IoServer::factory(
             new HttpServer(
                 new WsServer(
+                    //сам вебсокет
                     new AppServer()
                 )
             ),

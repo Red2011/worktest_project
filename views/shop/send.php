@@ -15,7 +15,7 @@ $this->title = 'Отправка данных';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <section class="shop-block" style="justify-content: center; align-items: center">
-
+<!--    форма для отправки файла на сервер-->
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
     <?= $form->field($model, 'jsonFile')->fileInput(['id'=>'inputJson']) ?>

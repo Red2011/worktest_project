@@ -6,6 +6,7 @@ use yii\base\Model;
 
 class UploadForm extends Model
 {
+    //модель для полученного json файла от клиента
     /**
      * @var UploadedFile
      */
@@ -20,6 +21,7 @@ class UploadForm extends Model
 
     public function upload()
     {
+        //проверка на сохранение файла на сервере
         if ($this->validate()) {
             $this->jsonFile->saveAs($_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $this->jsonFile->baseName . '.' . $this->jsonFile->extension);
             return true;

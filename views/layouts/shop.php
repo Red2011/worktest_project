@@ -1,4 +1,5 @@
 <?php
+//обертка для каждой страницы
 
 /** @var yii\web\View $this */
 /** @var string $content */
@@ -31,6 +32,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 
+<!--отображение header при разрешении на это-->
 <?php if($this->context->getShowHeader()):?>
 <header id="header">
     <?php
