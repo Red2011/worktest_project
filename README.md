@@ -54,6 +54,19 @@ ENGINE=InnoDB
 
 ```
 
+# Команды запуска
+
+## Вебсокет
+
+```bash
+ php yii ratchet  
+```
+
+## Сервер+Клиент
+```bash
+ php -S 0.0.0.0:9000 
+```
+
 
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
