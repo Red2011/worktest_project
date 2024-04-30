@@ -48,27 +48,29 @@ class SensorDataController extends Controller
      * Lists all SensorData models.
      *
      * @return string
+     * @throws NotFoundHttpException
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => SensorData::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'sensor_id' => SORT_DESC,
-                    'time' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        throw new NotFoundHttpException('Запрашиваемая страница не найдена.');
+//        $dataProvider = new ActiveDataProvider([
+//            'query' => SensorData::find(),
+//            /*
+//            'pagination' => [
+//                'pageSize' => 50
+//            ],
+//            'sort' => [
+//                'defaultOrder' => [
+//                    'sensor_id' => SORT_DESC,
+//                    'time' => SORT_DESC,
+//                ]
+//            ],
+//            */
+//        ]);
+//
+//        return $this->render('index', [
+//            'dataProvider' => $dataProvider,
+//        ]);
     }
 
     /**
@@ -80,31 +82,34 @@ class SensorDataController extends Controller
      */
     public function actionView($sensor_id, $time)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($sensor_id, $time),
-        ]);
+        throw new NotFoundHttpException('Запрашиваемая страница не найдена.');
+//        return $this->render('view', [
+//            'model' => $this->findModel($sensor_id, $time),
+//        ]);
     }
 
     /**
      * Creates a new SensorData model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
      */
     public function actionCreate()
     {
-        $model = new SensorData();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'sensor_id' => $model->sensor_id, 'time' => $model->time]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        throw new NotFoundHttpException('Запрашиваемая страница не найдена.');
+//        $model = new SensorData();
+//
+//        if ($this->request->isPost) {
+//            if ($model->load($this->request->post()) && $model->save()) {
+//                return $this->redirect(['view', 'sensor_id' => $model->sensor_id, 'time' => $model->time]);
+//            }
+//        } else {
+//            $model->loadDefaultValues();
+//        }
+//
+//        return $this->render('create', [
+//            'model' => $model,
+//        ]);
     }
 
     /**
@@ -117,15 +122,16 @@ class SensorDataController extends Controller
      */
     public function actionUpdate($sensor_id, $time)
     {
-        $model = $this->findModel($sensor_id, $time);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'sensor_id' => $model->sensor_id, 'time' => $model->time]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        throw new NotFoundHttpException('Запрашиваемая страница не найдена.');
+//        $model = $this->findModel($sensor_id, $time);
+//
+//        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'sensor_id' => $model->sensor_id, 'time' => $model->time]);
+//        }
+//
+//        return $this->render('update', [
+//            'model' => $model,
+//        ]);
     }
 
     /**
@@ -138,9 +144,10 @@ class SensorDataController extends Controller
      */
     public function actionDelete($sensor_id, $time)
     {
-        $this->findModel($sensor_id, $time)->delete();
-
-        return $this->redirect(['index']);
+        throw new NotFoundHttpException('Запрашиваемая страница не найдена.');
+//        $this->findModel($sensor_id, $time)->delete();
+//
+//        return $this->redirect(['index']);
     }
 
     /**

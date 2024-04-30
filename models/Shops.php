@@ -35,6 +35,7 @@ class Shops extends \yii\db\ActiveRecord
         return [
             [['create_date'], 'required'],
             [['create_date'], 'safe'],
+            [['name', 'address', 'wifi_name', 'password'], 'required'],
             [['name'], 'string', 'max' => 30],
             [['address', 'token'], 'string', 'max' => 50],
             [['wifi_name', 'password'], 'string', 'max' => 20],

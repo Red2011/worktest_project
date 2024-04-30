@@ -61,6 +61,7 @@ $config = [
             'rules' => [
                 'page/<page:\d+>' => 'shop/index',
                 '/' => 'shop/index',
+                'shop/download/<name:\w+>/<token:>' => 'shop/download',
                 'shop/<id:\d+>' => 'shop/view',
             ],
         ],

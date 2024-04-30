@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <section class="shop-block view-shop">
     <div class="control-block">
-        <button class="button-main button-back">Назад</button>
+        <?= Html::button('Назад', ['class'=>'button-main button-back', 'onclick'=>'history.go(-1)']) ?>
         <p>
             <?= Html::a('Файл настроек', ['download', 'token' => $shop->token, 'name'=>$shop->name], ['class' => 'button-main button-info']) ?>
             <?= Html::a('Изменить', ['update', 'id' => $shop->id], ['class' => 'button-main button-info']) ?>
@@ -58,70 +58,77 @@ $this->params['breadcrumbs'][] = $this->title;
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($shop->sensors as $sensor): ?>
-            <tr>
-                <td><?php echo $sensor->sensor_id ?></td>
-                <td class="block-delete">
-                    <p style="margin: 0"><?php echo $sensor->mac ?></p>
-                    <div>
+        <?php if (count($shop->sensors) < 1): ?>
+        <tr>
+            <td>Нет значения</td>
+            <td>Нет значения</td>
+        </tr>
+        <?php else: ?>
+            <?php foreach ($shop->sensors as $sensor): ?>
+                <tr>
+                    <td><?php echo $sensor->sensor_id ?></td>
+                    <td class="block-delete">
+                        <p style="margin: 0"><?php echo $sensor->mac ?></p>
+                        <div>
 
-                        <?= Html::a(Html::tag('i', '', ['class' => 'fa fa-search text-primary']), FALSE, ['value'=> Url::to(['view-datas', 'sensors_id'=>$sensor->id]),
-                            'id'=>$sensor->id . "view",
-                            'class'=> 'view-sensors']) ?>
+                            <?= Html::a(Html::tag('i', '', ['class' => 'fa fa-search text-primary']), FALSE, ['value'=> Url::to(['view-datas', 'sensors_id'=>$sensor->id]),
+                                'id'=>$sensor->id . "view",
+                                'class'=> 'view-sensors']) ?>
 
-                        <?php Modal::begin([
-                            'id' => $sensor->id . 'modalopen',
-                            'size' => 'modal-lg',
-                            'title' => "Данные"
-                        ]) ?>
-                        <div id="<?= $sensor->id ?>modal"></div>
-                        <?php Modal::end() ?>
-                        <?php
-                        $modalOpen = '#' . $sensor->id . 'modalopen';
-                        $modalButton = '#' . $sensor->id . "view";
-                        $modalID = "#" . $sensor->id . "modal";
-                        $js = <<<JS
-                        $('$modalButton').click(function(){
-                                    $('$modalID').load($(this).attr('value'));
-                                    $('$modalOpen').modal('show');
-                                });
-                        JS;
-                        $this->registerJs($js);
-                        ?>
+                            <?php Modal::begin([
+                                'id' => $sensor->id . 'modalopen',
+                                'size' => 'modal-lg',
+                                'title' => "Данные"
+                            ]) ?>
+                            <div id="<?= $sensor->id ?>modal"></div>
+                            <?php Modal::end() ?>
+                            <?php
+                            $modalOpen = '#' . $sensor->id . 'modalopen';
+                            $modalButton = '#' . $sensor->id . "view";
+                            $modalID = "#" . $sensor->id . "modal";
+                            $js = <<<JS
+                            $('$modalButton').click(function(){
+                                        $('$modalID').load($(this).attr('value'));
+                                        $('$modalOpen').modal('show');
+                                    });
+                            JS;
+                            $this->registerJs($js);
+                            ?>
 
-                        <?= Html::a('х', ['delete-sensor', 'sensor' => $sensor->id, 'token'=>$shop->token], [
-                                'class' => 'sensor-delete ms-2',
-                                'data' => [
-                                    'confirm' => 'Уверены, что хотите удалить устройство?',
-                                    'method' => 'post',
-                                ],
-                        ]) ?>
-                    </div>
-                </td>
-            </tr>
-        <?php endforeach; ?>
+    <!--                        --><?php //= Html::a('х', ['delete-sensor', 'sensor' => $sensor->id, 'token'=>$shop->token], [
+    //                                'class' => 'sensor-delete ms-2',
+    //                                'data' => [
+    //                                    'confirm' => 'Уверены, что хотите удалить устройство?',
+    //                                    'method' => 'post',
+    //                                ],
+    //                        ]) ?>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
         </tbody>
     </table>
 
-    <div class="button-add-sensor">
-        <?= Html::a('+', FALSE, ['value' => Url::to(['add-sensor', 'token' => $shop->token]),'class' => 'inner', 'id'=>'open-modal-button']) ?>
-    </div>
-
-    <?php Modal::begin([
-        'id' => 'modal',
-        'size' => 'modal-lg',
-        'title' => 'Добавить новое устройство'
-    ]) ?>
-    <div id="modal-content"></div>
-    <?php Modal::end() ?>
-    <?php
-    $this->registerJs("
-    $('#open-modal-button').click(function(){
-        $('#modal-content').load($(this).attr('value'));
-        $('#modal').modal('show');
-    });
-");
-    ?>
+<!--    <div class="button-add-sensor">-->
+<!--        --><?php //= Html::a('+', FALSE, ['value' => Url::to(['add-sensor', 'token' => $shop->token]),'class' => 'inner', 'id'=>'open-modal-button']) ?>
+<!--    </div>-->
+<!---->
+<!--    --><?php //Modal::begin([
+//        'id' => 'modal',
+//        'size' => 'modal-lg',
+//        'title' => 'Добавить новое устройство'
+//    ]) ?>
+<!--    <div id="modal-content"></div>-->
+<!--    --><?php //Modal::end() ?>
+<!--    --><?php
+//    $this->registerJs("
+//    $('#open-modal-button').click(function(){
+//        $('#modal-content').load($(this).attr('value'));
+//        $('#modal').modal('show');
+//    });
+//");
+//    ?>
 
 </section>
 
