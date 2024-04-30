@@ -1,3 +1,60 @@
+# Запросы для создания таблиц
+
+
+
+## shops
+
+```sql
+CREATE TABLE `shops` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(30) NOT NULL DEFAULT '' COLLATE 'utf8mb4_general_ci',
+	`address` VARCHAR(50) NOT NULL DEFAULT '' COLLATE 'utf8mb4_general_ci',
+	`wifi_name` VARCHAR(20) NOT NULL DEFAULT '' COLLATE 'utf8mb4_general_ci',
+	`password` VARCHAR(20) NOT NULL DEFAULT '' COLLATE 'utf8mb4_general_ci',
+	`token` VARCHAR(50) NOT NULL DEFAULT '0' COLLATE 'utf8mb4_general_ci',
+	`create_date` DATETIME NOT NULL,
+	PRIMARY KEY (`id`) USING BTREE,
+	UNIQUE INDEX `token` (`token`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=76
+;
+```
+
+## sensors
+```sql
+CREATE TABLE `sensors` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`sensor_id` INT(11) NOT NULL,
+	`mac` VARCHAR(50) NOT NULL DEFAULT '' COLLATE 'utf8mb4_general_ci',
+	`sensor_token` VARCHAR(50) NOT NULL DEFAULT '' COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`id`) USING BTREE,
+	INDEX `FK_sensors_shops` (`sensor_token`) USING BTREE,
+	CONSTRAINT `FK_sensors_shops` FOREIGN KEY (`sensor_token`) REFERENCES `shops` (`token`) ON UPDATE NO ACTION ON DELETE CASCADE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=903
+;
+```
+
+## sensor_data
+```sql
+CREATE TABLE `sensor_data` (
+	`sensor_id` INT(11) NOT NULL,
+	`time` TIMESTAMP NOT NULL,
+	`range` INT(11) NOT NULL,
+	PRIMARY KEY (`sensor_id`, `time`) USING BTREE,
+	CONSTRAINT `FK_sensor_data_sensors` FOREIGN KEY (`sensor_id`) REFERENCES `sensors` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+;
+
+```
+
+
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
