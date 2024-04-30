@@ -20,7 +20,8 @@
         "yiisoft/yii2-symfonymailer": "~2.0.3",
         "yii2mod/yii2-timezone": "*",
         "kartik-v/yii2-icons": "@dev",
-        "cboden/ratchet": "^0.4.4"
+        "cboden/ratchet": "^0.4.4",
+        "ext-json": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
