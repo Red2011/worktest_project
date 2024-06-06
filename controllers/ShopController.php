@@ -226,33 +226,18 @@ class ShopController extends Controller
     public function actionDownload($token, $name)
     {
         $url = 'ws://localhost:' . AppController::$io_port;
-        $filePath = $_SERVER['DOCUMENT_ROOT'] . "/files/" . "{$name}" . ".json";
-        //предварительное удаление всех файлов в папке
-        $files = glob($_SERVER['DOCUMENT_ROOT'] . '/files/*');
-        if ($files) {
-            foreach ($files as $file) {
-                if (is_file($file)) {
-                    unlink($file);
-                }
-            }
-        }
         $data = [
             'token' => $token,
             'url' => $url
         ];
         $jsonData = json_encode($data);
-        //создание файла и запись в него объекта
-        $fp = fopen($filePath, "wb");
-        if ($fp) {
-            fwrite($fp, $jsonData);
-            fclose($fp);
-        }
-        //отправка файла при успешном создании
-        if (file_exists($filePath)) {
-            return Yii::$app->response->sendFile($filePath)->send();
-        } else {
-            throw new \yii\web\NotFoundHttpException('Файл не найден');
-        }
+        //отправка файла через headers
+        header("Pragma: public");
+        header("Content-Type: application/json; charset=utf-8");
+        header("Content-Disposition: attachment; charset=utf-8; filename=\"$name.json\"");
+        header("Content-Transfer-Encoding: binary");
+        header("Content-Length: " . strlen($jsonData));
+        echo $jsonData;
     }
 
     /**
