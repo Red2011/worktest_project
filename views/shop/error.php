@@ -1,10 +1,10 @@
 <?php
-    /** @var yii\web\View $this */
+/** @var yii\web\View $this */
 
-    /** @var Exception $exception */
-    use yii\helpers\Html;
+/** @var Exception $exception */
+use yii\helpers\Html;
 
-    $this->title = 'Ошибка';
+$this->title = 'Ошибка';
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
 
