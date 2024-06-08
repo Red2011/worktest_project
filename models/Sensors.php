@@ -15,21 +15,19 @@ use Yii;
  * @property SensorData[] $sensorDatas
  * @property Shops $sensorToken
  */
-class Sensors extends \yii\db\ActiveRecord
-{
+class Sensors extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'sensors';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['sensor_id'], 'required'],
             [['sensor_id'], 'integer'],
@@ -42,13 +40,12 @@ class Sensors extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
-            'sensor_id' => 'Sensor ID',
-            'mac' => 'Mac адрес',
-            'sensor_token' => 'Sensor Token',
+            'sensor_id' => \Yii::t('app', 'Sensor ID'),
+            'mac' => \Yii::t('app', 'Mac - address'),
+            'sensor_token' => \Yii::t('app', 'Sensor token'),
         ];
     }
 
@@ -57,10 +54,8 @@ class Sensors extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-
     //получение всех значений датчиков у устройства по внешнему ключу
-    public function getSensorDatas()
-    {
+    public function getSensorDatas() {
         return $this->hasMany(SensorData::class, ['sensor_id' => 'id']);
     }
 
@@ -69,10 +64,8 @@ class Sensors extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-
     //получение токена магазина для устройства по внешнему ключу
-    public function getSensorToken()
-    {
+    public function getSensorToken() {
         return $this->hasOne(Shops::class, ['token' => 'sensor_token']);
     }
 }

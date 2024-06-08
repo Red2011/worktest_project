@@ -2,8 +2,6 @@
 
 namespace app\controllers;
 
-use app\controllers\AppController;
-use app\models\Sensors;
 use app\models\Shops;
 use app\models\UploadForm;
 use Yii;
@@ -11,45 +9,39 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\Response;
-use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
 /**
  * ShopController implements the CRUD actions for Shops model.
  */
-class ShopController extends Controller
-{
+class ShopController extends Controller {
 
     //разрешение на отображение header
     protected $_showHeader = true;
 
-    public function setShowHeader($value)
-    {
-        $this->_showHeader = (bool)$value;
+    public function setShowHeader($value) {
+        $this->_showHeader = (bool) $value;
         return $this;
     }
 
-    public function getShowHeader()
-    {
+    public function getShowHeader() {
         return $this->_showHeader;
     }
 
     /**
      * @inheritDoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+                parent::behaviors(),
+                [
+                    'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                            'delete' => ['POST'],
+                        ],
                     ],
-                ],
-            ]
+                ]
         );
     }
 
@@ -59,8 +51,7 @@ class ShopController extends Controller
      * @return string
      */
     //отображение всех магазинов
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $dataProvider = new ActiveDataProvider([
             'query' => Shops::find(),
             'pagination' => [
@@ -75,7 +66,7 @@ class ShopController extends Controller
             ],
         ]);
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -86,28 +77,24 @@ class ShopController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     //отображение одного магазина по id
-    public function actionView($id)
-    {
+    public function actionView($id) {
         $shop = $this->findModel($id);
         return $this->render('view', [
-            'shop' => $shop,
+                    'shop' => $shop,
         ]);
     }
 
     //отображение магазина по токену
-    public function actionViewByToken($token)
-    {
+    public function actionViewByToken($token) {
         $model = $this->findModelByToken($token);
 
         return $this->redirect(['view',
-            'id' => $model->id,
+                    'id' => $model->id,
         ]);
     }
 
-
     //получение файла с формы, чтение токена и url и отображение страницы с подключением к вебсокету
-    public function actionSend()
-    {
+    public function actionSend() {
         //модель полученного файла
         $model = new UploadForm();
 
@@ -115,12 +102,12 @@ class ShopController extends Controller
             $model->jsonFile = UploadedFile::getInstance($model, 'jsonFile');
             if ($model->upload()) {
                 //чтение файла при успешной загрузке на сервер
-               $content = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $model->jsonFile), true);
-               $token = $content['token'];
-               $url = $content['url'];
-               //удаление файла
-               unlink($_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $model->jsonFile);
-               return $this->render('dataview', ['token'=>$token, 'url'=>$url]);
+                $content = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $model->jsonFile), true);
+                $token = $content['token'];
+                $url = $content['url'];
+                //удаление файла
+                unlink($_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $model->jsonFile);
+                return $this->render('dataview', ['token' => $token, 'url' => $url]);
             }
         }
 
@@ -131,16 +118,15 @@ class ShopController extends Controller
 //    {
 //        return $this->render('dataview');
 //    }
+
     /**
      * Creates a new Shops model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-
     //создание магазина
-    public function actionCreate()
-    {
-       // $url = 'ws://localhost:' . AppController::$io_port;
+    public function actionCreate() {
+        // $url = 'ws://localhost:' . AppController::$io_port;
         $model = new Shops();
 
         if ($this->request->isPost) {
@@ -151,14 +137,14 @@ class ShopController extends Controller
             $model->create_date = date("Y-m-d H:i:s");
             error_log(json_encode($this->request->post()));
             if ($model->load($this->request->post()) && $model->save()) {
-               return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
         }
 
         return $this->render('create', [
-            'shop' => $model,
+                    'shop' => $model,
         ]);
     }
 
@@ -169,10 +155,8 @@ class ShopController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-
     //измененение информации о магазине
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -180,7 +164,7 @@ class ShopController extends Controller
         }
 
         return $this->render('update', [
-            'shop' => $model,
+                    'shop' => $model,
         ]);
     }
 
@@ -191,40 +175,30 @@ class ShopController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-
     //удаление магазина
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
 
-
     //добавление нового устройства для магазина
-    public function actionAddSensor($token)
-    {
+    public function actionAddSensor($token) {
         return Yii::$app->runAction('sensor/create', ['token' => $token]);
     }
 
-
     //удаление устройства
-    public function actionDeleteSensor($sensor, $token)
-    {
+    public function actionDeleteSensor($sensor, $token) {
         return Yii::$app->runAction('sensor/delete', ['sensor' => $sensor, 'token' => $token]);
     }
 
-
     //получение датчиков устройства
-    public function actionViewDatas($sensors_id)
-    {
+    public function actionViewDatas($sensors_id) {
         return Yii::$app->runAction('sensor/view-data', ['id' => $sensors_id]);
     }
 
-
     //формирование файла и загрузка
-    public function actionDownload($token, $name)
-    {
+    public function actionDownload($token, $name) {
         $url = 'ws://localhost:' . AppController::$io_port;
         $data = [
             'token' => $token,
@@ -247,25 +221,21 @@ class ShopController extends Controller
      * @return Shops the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-
     //получение модели магазина по id
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Shops::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('Магазин не найден');
+        throw new NotFoundHttpException(\Yii::t('app', 'Shop not found'));
     }
 
     //получение модели магазина по токену
-    protected function findModelByToken($token)
-    {
+    protected function findModelByToken($token) {
         if (($model = Shops::findOne(['token' => $token])) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('Магазин не найден');
+        throw new NotFoundHttpException(\Yii::t('app', 'Shop not found'));
     }
-
 }

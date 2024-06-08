@@ -10,18 +10,17 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 /** @var app\models\UploadForm $model */
-
-$this->title = 'Отправка данных';
+$this->title = \Yii::t('app', 'Sending data');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <section class="shop-block" style="justify-content: center; align-items: center">
-<!--    форма для отправки файла на сервер-->
+    <!--    форма для отправки файла на сервер-->
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
-    <?= $form->field($model, 'jsonFile')->fileInput(['id'=>'inputJson']) ?>
+    <?= $form->field($model, 'jsonFile')->fileInput(['id' => 'inputJson']) ?>
 
 
-    <button class="button-main button-info">Отправить данные</button>
+    <button class="button-main button-info"><?= \Yii::t('app', 'Send data') ?></button>
 
     <?php ActiveForm::end() ?>
 </section>

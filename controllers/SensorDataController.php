@@ -11,36 +11,33 @@ use yii\filters\VerbFilter;
 /**
  * SensorDataController implements the CRUD actions for SensorData model.
  */
-class SensorDataController extends Controller
-{
+class SensorDataController extends Controller {
 
     protected $_showHeader = true;
 
-    public function setShowHeader($value)
-    {
+    public function setShowHeader($value) {
         $this->_showHeader = (bool) $value;
         return $this;
     }
 
-    public function getShowHeader()
-    {
+    public function getShowHeader() {
         return $this->_showHeader;
     }
+
     /**
      * @inheritDoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+                parent::behaviors(),
+                [
+                    'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                            'delete' => ['POST'],
+                        ],
                     ],
-                ],
-            ]
+                ]
         );
     }
 
@@ -50,9 +47,8 @@ class SensorDataController extends Controller
      * @return string
      * @throws NotFoundHttpException
      */
-    public function actionIndex()
-    {
-        throw new NotFoundHttpException('Запрашиваемая страница не найдена.');
+    public function actionIndex() {
+        throw new NotFoundHttpException(\Yii::t('app', 'The requested page was not found'));
 //        $dataProvider = new ActiveDataProvider([
 //            'query' => SensorData::find(),
 //            /*
@@ -80,9 +76,8 @@ class SensorDataController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($sensor_id, $time)
-    {
-        throw new NotFoundHttpException('Запрашиваемая страница не найдена.');
+    public function actionView($sensor_id, $time) {
+        throw new NotFoundHttpException(\Yii::t('app', 'The requested page was not found'));
 //        return $this->render('view', [
 //            'model' => $this->findModel($sensor_id, $time),
 //        ]);
@@ -94,9 +89,8 @@ class SensorDataController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionCreate()
-    {
-        throw new NotFoundHttpException('Запрашиваемая страница не найдена.');
+    public function actionCreate() {
+        throw new NotFoundHttpException(\Yii::t('app', 'The requested page was not found'));
 //        $model = new SensorData();
 //
 //        if ($this->request->isPost) {
@@ -120,9 +114,8 @@ class SensorDataController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($sensor_id, $time)
-    {
-        throw new NotFoundHttpException('Запрашиваемая страница не найдена.');
+    public function actionUpdate($sensor_id, $time) {
+        throw new NotFoundHttpException(\Yii::t('app', 'The requested page was not found'));
 //        $model = $this->findModel($sensor_id, $time);
 //
 //        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -142,9 +135,8 @@ class SensorDataController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($sensor_id, $time)
-    {
-        throw new NotFoundHttpException('Запрашиваемая страница не найдена.');
+    public function actionDelete($sensor_id, $time) {
+        throw new NotFoundHttpException(\Yii::t('app', 'The requested page was not found'));
 //        $this->findModel($sensor_id, $time)->delete();
 //
 //        return $this->redirect(['index']);
@@ -158,12 +150,11 @@ class SensorDataController extends Controller
      * @return SensorData the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($sensor_id, $time)
-    {
+    protected function findModel($sensor_id, $time) {
         if (($model = SensorData::findOne(['sensor_id' => $sensor_id, 'time' => $time])) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException(\Yii::t('app', 'The requested page was not found'));
     }
 }

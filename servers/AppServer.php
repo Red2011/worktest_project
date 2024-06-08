@@ -2,39 +2,32 @@
 
 namespace app\servers;
 
-use app\controllers\SensorController;
 use app\models\SensorData;
 use app\models\Sensors;
-use DateTime;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
-use Yii;
 
-class AppServer implements MessageComponentInterface
-{
+class AppServer implements MessageComponentInterface {
+
     protected $clients;
-    public function __construct()
-    {
+
+    public function __construct() {
         $this->clients = new \SplObjectStorage; // Для хранения технической информации об присоединившихся клиентах используется технология SplObjectStorage, встроенная в PHP
     }
 
-
     //действия при установке соединение клиента с вебсокетом
-    public function onOpen(ConnectionInterface $conn)
-    {
+    public function onOpen(ConnectionInterface $conn) {
         $this->clients->attach($conn);
-        echo "New connection! ({$conn->resourceId})\n";
+        echo \Yii::t('app', 'New connection') . "! ({$conn->resourceId})\n";
     }
 
-
     //действия при отправке сообщения клиентом на вебсокет
-    public function onMessage(ConnectionInterface $from, $msg)
-    {
+    public function onMessage(ConnectionInterface $from, $msg) {
         try {
             //получени сообщения и преобразование его в ассоциативный массив
             $data = json_decode($msg, true);
             //преобразование timestamp в нормальный вид даты
-            $timeData =date('Y-m-d H:i:s', ceil($data['timestamp'] / 1000));
+            $timeData = date('Y-m-d H:i:s', ceil($data['timestamp'] / 1000));
             echo $timeData . "\n";
             foreach ($data['data'] as $sensor) {
                 //создание нового объекта устройсва
@@ -44,7 +37,7 @@ class AppServer implements MessageComponentInterface
                 $newSensor->sensor_id = $sensor['id'];
                 $thisId = 0;
                 //проверка существования записи в бд
-                $isExist = Sensors::find()->where(['sensor_id'=> $sensor['id'], 'sensor_token' => $data['token'], 'mac' => $data['mac']])->exists();
+                $isExist = Sensors::find()->where(['sensor_id' => $sensor['id'], 'sensor_token' => $data['token'], 'mac' => $data['mac']])->exists();
                 $p = $newSensor->validate();
                 $converted_res = $p ? 'true' : 'false';
                 $k = $newSensor->getErrors();
@@ -53,14 +46,17 @@ class AppServer implements MessageComponentInterface
                 //запись устройства в бд
                 if (!$isExist && $newSensor->save()) {
                     $thisId = $newSensor->id;
-                    $createMessage = 'Устройство с mac: ' . $data['mac'] . " и датчиком " . $sensor['id'] . ' создалось';
+                    $createMessage = \Yii::t('app', 'Device with mac: {mac} and the sensor {id} it has been created', [
+                                'mac' => $data['mac'],
+                                'id' => $sensor['id'],
+                    ]);
                     echo $createMessage . "\n";
                     //$from->send($createMessage);
                     $isExist = true;
                 }
                 //получение id существуюущего устройства
                 else {
-                    $sensot = Sensors::find()->where(['sensor_id'=> $sensor['id'], 'sensor_token' => $data['token'], 'mac' => $data['mac']])->one();
+                    $sensot = Sensors::find()->where(['sensor_id' => $sensor['id'], 'sensor_token' => $data['token'], 'mac' => $data['mac']])->one();
                     $thisId = $sensot->primaryKey;
                 }
                 //запись в бд данных с датчиков устройства
@@ -69,7 +65,7 @@ class AppServer implements MessageComponentInterface
                     $newSensorData->sensor_id = $thisId;
                     $newSensorData->time = $timeData;
                     $newSensorData->range = $sensor['range'];
-                    if ($newSensorData->save()){
+                    if ($newSensorData->save()) {
                         $dataMessage = 'ID: ' . $sensor['id'] . ", Time: " . $timeData . ", Mac: " . $data['mac'] . ", range: " . $sensor['range'];
                         $dataMessageArray = [
                             "time" => $timeData,
@@ -83,25 +79,25 @@ class AppServer implements MessageComponentInterface
                         $from->send(json_encode($dataMessageArray));
                     }
                 }
-
             }
-        }
-        catch (\Exception $e) {
-            echo 'Исключение: ' . $e->getMessage();
+        } catch (\Exception $e) {
+            echo \Yii::t('app', 'Exception ') . $e->getMessage();
         }
     }
 
-    //действяи при закрытии вебсокета
-    public function onClose(ConnectionInterface $conn)
-    {
+    //действия при закрытии вебсокета
+    public function onClose(ConnectionInterface $conn) {
         $this->clients->detach($conn);
-        echo "Connection {$conn->resourceId} has disconnected\n";
+        echo \Yii::t('app', 'Connection {connResourseId} has disconnected', [
+            'connResourseId' => $conn->resourceId,
+        ]);
     }
 
     //действия при ошибке
-    public function onError(ConnectionInterface $conn, \Exception $e)
-    {
-        echo "An error has occurred: {$e->getMessage()}\n";
+    public function onError(ConnectionInterface $conn, \Exception $e) {
+        echo \Yii::t('app', 'An error has occurred: {message}', [
+            'message' => $e->getMessage(),
+        ]) . "\n";
         $conn->close();
     }
 }

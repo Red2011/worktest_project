@@ -17,22 +17,20 @@ use Yii;
  *
  * @property Sensors[] $sensors
  */
-class Shops extends \yii\db\ActiveRecord
-{
+class Shops extends \yii\db\ActiveRecord {
     //модель для магазинов
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'shops';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         //правила по которым происходит создание нового магазина
         return [
             [['create_date'], 'required'],
@@ -48,17 +46,16 @@ class Shops extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         //переопределение атрибутов для отображения на клиенте
         return [
             'id' => 'id',
-            'name' => 'Название магазина',
-            'address' => 'Адрес магазина',
-            'wifi_name' => 'Название Wifi сети',
-            'password' => 'Пароль от Wifi сети',
-            'token' => 'Токен',
-            'create_date' => 'Дата создания',
+            'name' => \Yii::t('app', 'Shop name'),
+            'address' => \Yii::t('app', 'Shop address'),
+            'wifi_name' => \Yii::t('app', 'Name of the WIFI network'),
+            'password' => \Yii::t('app', 'Wifi password'),
+            'token' => \Yii::t('app', 'Token'),
+            'create_date' => \Yii::t('app', 'Date of creation'),
         ];
     }
 
@@ -68,8 +65,7 @@ class Shops extends \yii\db\ActiveRecord
      * @return \yii\db\ActiveQuery
      */
     //получение всех устройств у магазина по внешнему ключу
-    public function getSensors()
-    {
+    public function getSensors() {
         return $this->hasMany(Sensors::class, ['sensor_token' => 'token']);
     }
 }

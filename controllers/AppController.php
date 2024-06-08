@@ -2,15 +2,14 @@
 
 namespace app\controllers;
 
-
 use app\servers\AppServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 use Ratchet\Server\IoServer;
 use yii\web\Controller;
 
-class AppController extends Controller
-{
+class AppController extends Controller {
+
     //контроллер для запуска сервера вебсокета
     static $io_port = 9997;
 
@@ -20,13 +19,13 @@ class AppController extends Controller
      */
     static function setInstance() {
         $server = IoServer::factory(
-            new HttpServer(
-                new WsServer(
-                    //сам вебсокет
-                    new AppServer()
-                )
-            ),
-            AppController::$io_port
+                        new HttpServer(
+                                new WsServer(
+                                        //сам вебсокет
+                                        new AppServer()
+                                )
+                        ),
+                        AppController::$io_port
         );
         $server->run();
     }

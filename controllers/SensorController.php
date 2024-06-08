@@ -12,36 +12,34 @@ use yii\filters\VerbFilter;
 /**
  * SensorController implements the CRUD actions for Sensors model.
  */
-class SensorController extends Controller
-{
+class SensorController extends Controller {
+
     //разрешение на отображение header
     protected $_showHeader = true;
 
-    public function setShowHeader($value)
-    {
+    public function setShowHeader($value) {
         $this->_showHeader = (bool) $value;
         return $this;
     }
 
-    public function getShowHeader()
-    {
+    public function getShowHeader() {
         return $this->_showHeader;
     }
+
     /**
      * @inheritDoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+                parent::behaviors(),
+                [
+                    'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                            'delete' => ['POST'],
+                        ],
                     ],
-                ],
-            ]
+                ]
         );
     }
 
@@ -50,24 +48,23 @@ class SensorController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $dataProvider = new ActiveDataProvider([
             'query' => Sensors::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
+                /*
+                  'pagination' => [
+                  'pageSize' => 50
+                  ],
+                  'sort' => [
+                  'defaultOrder' => [
+                  'id' => SORT_DESC,
+                  ]
+                  ],
+                 */
         ]);
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -77,19 +74,17 @@ class SensorController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
     //отображение данных датчиков по id устройства без header
-    public function actionViewData($id)
-    {
+    public function actionViewData($id) {
         $this->setShowHeader(false);
         return $this->render('viewDatas', [
-            'model' => $this->findModel($id)
+                    'model' => $this->findModel($id)
         ]);
     }
 
@@ -98,11 +93,9 @@ class SensorController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-
     //создание нового устройства для магазина с токеном $token без header
     //переделать, т.к. создаётся 1 устройство с 1 датчиком каждый раз
-    public function actionCreate($token)
-    {
+    public function actionCreate($token) {
         $this->setShowHeader(false);
         $model = new Sensors();
         //получение всех id устройств магазина и создание нового id
@@ -112,20 +105,20 @@ class SensorController extends Controller
 
         if ($this->request->isPost) {
             $model->sensor_token = $token;
-            $model->sensor_id=$last_id+1;
+            $model->sensor_id = $last_id + 1;
             if ($model->mac === null) {
                 $model->mac = "0";
             }
             if ($model->load($this->request->post()) && $model->save()) {
                 error_log(json_encode($model->attributes));
-                return Yii::$app->runAction('shop/view-by-token', ['token'=>$token]);
+                return Yii::$app->runAction('shop/view-by-token', ['token' => $token]);
             }
         } else {
             $model->loadDefaultValues();
         }
 
         return $this->render('create', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -136,8 +129,7 @@ class SensorController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -145,7 +137,7 @@ class SensorController extends Controller
         }
 
         return $this->render('update', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -156,11 +148,10 @@ class SensorController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($sensor, $token)
-    {
+    public function actionDelete($sensor, $token) {
         $this->findModel($sensor)->delete();
 
-        return Yii::$app->runAction('shop/view-by-token', ['token'=>$token]);
+        return Yii::$app->runAction('shop/view-by-token', ['token' => $token]);
     }
 
     /**
@@ -170,27 +161,23 @@ class SensorController extends Controller
      * @return Sensors the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Sensors::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('Устройство не найдено');
+        throw new NotFoundHttpException(\Yii::t('app', 'Device not found'));
     }
 
-
     //получение всех устройств по токену магазина
-    protected function findAllSensors($token)
-    {
+    protected function findAllSensors($token) {
         $ids = array();
-        if (($model = Sensors::findAll(['sensor_token'=>$token])) !== null) {
+        if (($model = Sensors::findAll(['sensor_token' => $token])) !== null) {
             foreach ($model as $item) {
                 $ids[] = $item->sensor_id;
             }
             return $ids;
-        }
-        else {
+        } else {
             $ids[] = 1;
             return $ids;
         }

@@ -21,10 +21,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($shop, 'password')->passwordInput(['maxlength' => true]) ?>
 
-<!--    --><?php //= $form->field($shop, 'create_date')->textInput(['type' => 'datetime-local']) ?>
+    <!--    --><?php //= $form->field($shop, 'create_date')->textInput(['type' => 'datetime-local'])  ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Сохранить', ['class' => 'button-main button-save']) ?>
+        <?= Html::submitButton(\Yii::t('app', 'Save'), ['class' => 'button-main button-save']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 

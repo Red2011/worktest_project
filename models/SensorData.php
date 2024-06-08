@@ -13,21 +13,19 @@ use Yii;
  *
  * @property Sensors $sensor
  */
-class SensorData extends \yii\db\ActiveRecord
-{
+class SensorData extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'sensor_data';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['sensor_id', 'time', 'range'], 'required'],
             [['sensor_id', 'range'], 'integer'],
@@ -40,12 +38,11 @@ class SensorData extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
-            'sensor_id' => 'Sensor ID',
-            'time' => 'Time',
-            'range' => 'Range',
+            'sensor_id' => \Yii::t('app', 'Sensor ID'),
+            'time' => \Yii::t('app', 'Time'),
+            'range' => \Yii::t('app', 'Range'),
         ];
     }
 
@@ -54,10 +51,8 @@ class SensorData extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-
     //получение id устройства у датчика по внешнему ключу
-    public function getSensor()
-    {
+    public function getSensor() {
         return $this->hasOne(Sensors::class, ['id' => 'sensor_id']);
     }
 }

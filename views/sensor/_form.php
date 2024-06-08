@@ -12,10 +12,10 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'mac')->textInput(['maxlength' => true, 'placeholder' => 'mac', 'value'=>'0']) ?>
+    <?= $form->field($model, 'mac')->textInput(['maxlength' => true, 'placeholder' => 'mac', 'value' => '0']) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Сохранить', ['class' => 'button-main button-save']) ?>
+        <?= Html::submitButton(\Yii::t('app', 'Save'), ['class' => 'button-main button-save']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

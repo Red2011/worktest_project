@@ -1,36 +1,27 @@
 <?php
-
-use app\models\Shops;
-use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\ActionColumn;
-use yii\grid\GridView;
-use yii\widgets\ActiveForm;
-
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 /** @var string $token */
 /** @var string $url */
-
-$this->title = 'Отправка данных';
+$this->title = \Yii::t('app', 'Sending data');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <section class="shop-block">
     <table class="sensors-table" style="margin: 0; width: 100%; max-width: 600px">
         <thead>
-        <tr>
-            <th>Время</th>
-            <th>Mac-адрес</th>
-            <th>ID</th>
-            <th>Значение</th>
-        </tr>
+            <tr>
+                <th><?= \Yii::t('app', 'Time') ?></th>
+                <th><?= \Yii::t('app', 'Mac - address') ?></th>
+                <th><?= \Yii::t('app', 'ID') ?></th>
+                <th><?= \Yii::t('app', 'Value') ?></th>
+            </tr>
         </thead>
         <tbody id="messages">
         </tbody>
     </table>
 </section>
 <script>
-    let o = "<?= $this->title  ?>";
+    let o = "<?= $this->title ?>";
     //открытие соединения с вебсокетом по данным из файла
     //генерация объекта и отправка в вебсокет
     const send_token = "<?= $token ?>";
@@ -39,12 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
     // let count = Math.floor(Math.random() * 10);
     let count = 2;
     let ws = new WebSocket(url);
-    myFunction()
+    myFunction();
 
     ws.onmessage = function (e) {
         //добавление в таблицу новых строк, если вебсокет отправил их
         let message = JSON.parse(e.data);
-
         let newRow = document.createElement('tr');
         let newCellTime = document.createElement('td');
         let newCellMac = document.createElement('td');
@@ -52,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
         let newCellValue = document.createElement('td');
         newCellTime.textContent = message.time;
         newCellMac.textContent = message.mac;
-        newCellID.textContent = message.id
+        newCellID.textContent = message.id;
         newCellValue.textContent = message.range;
         newRow.appendChild(newCellTime);
         newRow.appendChild(newCellMac);
@@ -60,12 +50,12 @@ $this->params['breadcrumbs'][] = $this->title;
         newRow.appendChild(newCellValue);
         newRow.classList.add('new-row');
         document.getElementById('messages').prepend(newRow);
-    }
+    };
     let intervalId;
     //отправка обхекта каждые 2 секунды на вебсокет
     function myFunction() {
-        ws.onopen = function(e) {
-            intervalId = setInterval(function(){
+        ws.onopen = function (e) {
+            intervalId = setInterval(function () {
                 ws.send(JSON.stringify(generateRandomObject()));
             }, 2000);
         };
@@ -73,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 
     function stopFunction() {
-        console.log('Спустя 10 сек завершилось');
+        console.log('<?= \Yii::t('app', 'After 10 seconds, it ended') ?>');
         clearInterval(intervalId);
     }
 
@@ -96,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
         while (i < count) {
             let data = {
                 id: generateRandomNumber(),
-                range: generateRandom(100),
+                range: generateRandom(100)
             };
             sensors.push(data);
             i++;

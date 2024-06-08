@@ -12,6 +12,7 @@
  * ```
  */
 class Yii {
+
     /**
      * @var \yii\web\Application|\yii\console\Application|__Application
      */
@@ -24,10 +25,12 @@ class Yii {
  * 
  */
 class __Application {
+    
 }
 
 /**
  * @property app\models\User $identity
  */
 class __WebUser {
+    
 }
