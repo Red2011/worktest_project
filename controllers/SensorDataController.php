@@ -40,6 +40,14 @@ class SensorDataController extends Controller {
                 ]
         );
     }
+    public function actions()
+    {
+	return [
+		'error' => [
+			'class' => 'yii\web\ErrorAction',
+		],
+	];
+    }
 
     /**
      * Lists all SensorData models.
